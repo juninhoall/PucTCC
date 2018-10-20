@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "286606036848",
+    "firebase_url": "https://cursopucfirebase.firebaseio.com",
+    "project_id": "cursopucfirebase",
+    "storage_bucket": "cursopucfirebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286606036848:android:e6eb412ad2acb0dc",
+        "android_client_info": {
+          "package_name": "com.pucpr.puctcc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "286606036848-3t462igl65sufuaiocr7iojg3k8s36k2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pucpr.puctcc",
+            "certificate_hash": "85db22ed7192e4d14d08ddf087f4dd9cb71c5f74"
+          }
+        },
+        {
+          "client_id": "286606036848-9p3gmt69kgvc93mhe377udirvnha7d73.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSZjZfTdLiNASTb_oGkOmf8nZowI7UCV4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "286606036848-9p3gmt69kgvc93mhe377udirvnha7d73.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
