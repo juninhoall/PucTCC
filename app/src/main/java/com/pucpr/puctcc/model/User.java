@@ -1,5 +1,7 @@
 package com.pucpr.puctcc.model;
 
+import com.google.firebase.database.Exclude;
+
 public class User {
     private String name;
     private String email;
@@ -27,10 +29,12 @@ public class User {
         return password;
     }
 
+    @Exclude
     public void setPassword(String password) {
         this.password = password;
     }
 
+    @Exclude
     public String getTypeUser() {
         return typeUser;
     }
