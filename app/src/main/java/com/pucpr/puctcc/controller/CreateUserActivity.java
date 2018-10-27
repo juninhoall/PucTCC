@@ -36,12 +36,16 @@ public class CreateUserActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference firebaseReference;
-    private User user;
+    private User usuario;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user);
+
+        email = findViewById(R.id.edtRegisterEmail);
+        name = findViewById(R.id.edtRegisterName);
 
         email = findViewById(R.id.edtRegisterEmail);
         name = findViewById(R.id.edtRegisterName);
@@ -56,75 +60,94 @@ public class CreateUserActivity extends AppCompatActivity {
         btnCreate = findViewById(R.id.btnRegister);
         btnCancel = findViewById(R.id.btnCancel);
 
+        rbDoctor = findViewById(R.id.rbRegisterDoctor);
+        rbNurse = findViewById(R.id.rbRegisterNurse);
+        rbSecretary = findViewById(R.id.rbRegisterSecretary);
+
+        btnCreate = findViewById(R.id.btnRegister);
+        btnCancel = findViewById(R.id.btnCancel);
+
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (password.getText().toString().equals(confirmPassword.getText().toString())) {
-                    user = new User();
-                    user.setEmail(email.getText().toString());
-                    user.setName(name.getText().toString());
+                    usuario = new User();
+
+                    usuario.setEmail(email.getText().toString());
+                    usuario.setPassword(password.getText().toString());
+                    usuario.setName(name.getText().toString());
 
                     if (rbDoctor.isChecked()) {
-                        user.setTypeUser("doctor");
+                        usuario.setTypeUser("Administrador");
                     } else if (rbNurse.isChecked()) {
-                        user.setTypeUser("nurser");
-                    } else if (rbSecretary.isChecked()) {
-                        user.setTypeUser("secretary");
+                        usuario.setTypeUser("Atendente");
                     }
+                    //chamada de método para cadastro de usuários
                     createUser();
-                }else {
-                    Toast.makeText(CreateUserActivity.this, "As senhas não são correspondentes", Toast.LENGTH_SHORT).show();
-                }
 
+                } else {
+                    Toast.makeText(CreateUserActivity.this, "As senhas não se correspondem!", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
-    private  void createUser(){
+
+    private void createUser() {
+
         firebaseAuth = AuthFirebase.getAuthFirebase();
         firebaseAuth.createUserWithEmailAndPassword(
-                user.getEmail(),
-                user.getPassword()
+                usuario.getEmail(),
+                usuario.getPassword()
         ).addOnCompleteListener(CreateUserActivity.this, new OnCompleteListener<AuthResult>() {
-
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-//                    insertUser(user);
-//                    finish();
-                }else{
-                    String error  = "";
-                    try{
-                        throw  task.getException();
-                    }catch (FirebaseAuthWeakPasswordException e){
-                        error = "Digite uma senha mais forte contendo no minimo 8 caracteres e que contenha letras e números";
-                    }catch (FirebaseAuthInvalidCredentialsException e){
-                        error = "O email digitado é invalido";
-                    }catch (FirebaseAuthUserCollisionException e){
-                        error = "Esse usuário já existe";
-                    }catch (Exception e){
-                        error = "Servidor";
+                if (task.isSuccessful()) {
+                    insereUsuario(usuario);
+                    finish();
+                    //deslogar ao adicionar o usuário
+                    firebaseAuth.signOut();
+                    //para abrir a nossa tela principal após a re-autenticação
+                    abreTelaPrincipal();
+                } else {
+                    String erroExcecao = "";
+                    try {
+                        throw task.getException();
+                    } catch (FirebaseAuthWeakPasswordException e) {
+                        erroExcecao = "Digite uma senha mais forte, contendo no mínimo 8 caracteres e que contenha letras e números!";
+                    } catch (FirebaseAuthInvalidCredentialsException e) {
+                        erroExcecao = "O e-mail digitado é invalido, digite um novo e-mail";
+                    } catch (FirebaseAuthUserCollisionException e) {
+                        erroExcecao = "Esse e-mail já está cadastro!";
+                    } catch (Exception e) {
+                        erroExcecao = "Erro ao efetuar o cadastro!";
                         e.printStackTrace();
                     }
 
-                    Toast.makeText(CreateUserActivity.this, "error: " + error, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateUserActivity.this, "Erro: " + erroExcecao, Toast.LENGTH_LONG).show();
                 }
+
             }
         });
     }
-    private boolean insertUser(User u){
+
+    private boolean insereUsuario(User usuario) {
+
         try {
-            firebaseReference = AuthFirebase.getFirebase().child("user");
 
-            firebaseReference.push().setValue(u);
+            firebaseReference = AuthFirebase.getFirebase().child("users");
+            firebaseReference.push().setValue(usuario);
+            Toast.makeText(CreateUserActivity.this, "Usuário cadastrado com sucesso!", Toast.LENGTH_LONG).show();
+            return true;
 
-            Toast.makeText(CreateUserActivity.this, "Usuario cadastrado com sucesso", Toast.LENGTH_SHORT).show();
-            return  true;
-
-        }catch (Exception e){
-            Toast.makeText(CreateUserActivity.this, "error ao gravar usuario ", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(CreateUserActivity.this, "Erro ao gravar o usuário!", Toast.LENGTH_LONG).show();
             e.printStackTrace();
             return false;
         }
+    }
+
+    private void abreTelaPrincipal() {
 
     }
 }
