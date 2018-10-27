@@ -79,13 +79,14 @@ public class CreateUserActivity extends AppCompatActivity {
                     usuario.setName(name.getText().toString());
 
                     if (rbDoctor.isChecked()) {
-                        usuario.setTypeUser("Administrador");
+                        usuario.setTypeUser("admin");
                     } else if (rbNurse.isChecked()) {
-                        usuario.setTypeUser("Atendente");
+                        usuario.setTypeUser("nurse");
                     }
-                    //chamada de método para cadastro de usuários
+                    else if (rbSecretary.isChecked()) {
+                        usuario.setTypeUser("secretary");
+                    }
                     createUser();
-
                 } else {
                     Toast.makeText(CreateUserActivity.this, "As senhas não se correspondem!", Toast.LENGTH_LONG).show();
                 }
@@ -105,9 +106,8 @@ public class CreateUserActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     insereUsuario(usuario);
                     finish();
-                    //deslogar ao adicionar o usuário
                     firebaseAuth.signOut();
-                    //para abrir a nossa tela principal após a re-autenticação
+                    // open screen before authenticated
                     abreTelaPrincipal();
                 } else {
                     String erroExcecao = "";
