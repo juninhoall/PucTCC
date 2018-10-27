@@ -39,36 +39,42 @@
         android:layout_height="wrap_content"
         android:hint="Senha"
         android:inputType="textPassword" />
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <RadioButton
-            android:id="@+id/rbAdmin"
-            android:text="Enfermeiro"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <RadioButton
-            android:id="@+id/rbDoctor"
-            android:text="Doutor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <RadioButton
-            android:id="@+id/rbNurse"
-            android:text="Enfermeiro"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </RadioGroup>
     <EditText
         android:id="@+id/edtRegisterConfirmPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Confirmar senha"
         android:inputType="textPassword" />
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/rbRegisterDoctor"
+            android:text="Doutor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <RadioButton
+            android:id="@+id/rbRegisterNurse"
+            android:text="Enfermeiro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
+        <RadioButton
+            android:id="@+id/rbRegisterSecretary"
+            android:text="Atendente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RadioGroup>
     <Button
         android:id="@+id/btnRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Cadastrar usuario"
+        />
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cancelar usuario"
         />
 </LinearLayout>
