@@ -39,10 +39,9 @@ public class FirstActivity extends AppCompatActivity {
         refFirebase.child("users").orderByChild("email").equalTo(email.toString()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot ps : dataSnapshot.getChildren()){
-                    typeUserEmail = ps.child("typeUser").getValue().toString();
+                for (DataSnapshot pSnapshot : dataSnapshot.getChildren()){
+                    typeUserEmail = pSnapshot .child("typeUser").getValue().toString();
                 }
-
             }
 
             @Override
