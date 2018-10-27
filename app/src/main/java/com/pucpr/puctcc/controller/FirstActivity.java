@@ -23,6 +23,8 @@ public class FirstActivity extends AppCompatActivity {
     private TextView typeUser;
     private User user;
     private String typeUserEmail;
+    private Menu menu1;
+
 
 
 
@@ -33,14 +35,36 @@ public class FirstActivity extends AppCompatActivity {
 
         typeUser = findViewById(R.id.txtTypeUser);
         auth = FirebaseAuth.getInstance();
-        String email = auth.getCurrentUser().getEmail().toString();
+
         refFirebase = FirebaseDatabase.getInstance().getReference();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+
+        menu.clear();
+
+        this.menu1 = menu;
+
+        String email = auth.getCurrentUser().getEmail().toString();
+
 
         refFirebase.child("users").orderByChild("email").equalTo(email.toString()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot pSnapshot : dataSnapshot.getChildren()){
                     typeUserEmail = pSnapshot .child("typeUser").getValue().toString();
+                    menu.clear();
+                    if (menu1.equals("admin")){
+                        getMenuInflater().inflate(R.menu.menu_doctor, menu1);
+
+                        typeUser.setText(typeUserEmail.toString());
+                    }else if (menu1.equals("secretary")){
+                        getMenuInflater().inflate(R.menu.menu_secretary, menu1);
+                    }
+                    else if (menu1.equals("nurse")){
+                        getMenuInflater().inflate(R.menu.menu_nurse, menu1);
+                    }
                 }
             }
 
@@ -49,12 +73,6 @@ public class FirstActivity extends AppCompatActivity {
 
             }
         });
-
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_secretary, menu);
         return true;
     }
